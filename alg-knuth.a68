@@ -1,0 +1,59 @@
+PROGRAM knuth
+
+{ Copyright (C) 2014  - MEJT
+
+   The  original  ALGOL 60 implementation of this test was proposed  by  the
+   computer scientist Donald KNUTH as a means of evaluating  implementations
+   of  the  ALGOL  60  programming  language.  The aim  of the test  was  to
+   distinguish  between compilers that correctly implemented "recursion  and
+   non-local references" from those that did not. 
+
+
+   k   0   1   2   3   4   5   6   7   8   9  10   11   12   13    14    15 
+       1   0  -2   0   1   0   1  -1 -10 -30 -67 -138 -291 -642 -1446 -3250 
+       
+   https://en.wikipedia.org/wiki/Man_or_boy_test
+
+   This  program is free software: you can redistribute it and/or modify  it
+   under  the  terms of the GNU General Public License as published  by  the
+   Free  Software  Foundation, either version 3 of the License, or (at  your
+   option) any later version.
+ 
+   This  program  is  distributed in the hope that it will  be  useful,  but
+   WITHOUT   ANY   WARRANTY;   without  even   the   implied   warranty   of
+   MERCHANTABILITY  or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+   Public License for more details.
+ 
+   You  should have received a copy of the GNU General Public License  along
+   with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+   18 Mar 14 0.1  001 - Initial version - MEJT
+ 
+}
+
+BEGIN
+   INT i, limit := 15;
+
+   PROC a = (INT k1, PROC INT xl, x2, x3, x4, x5) INT:
+   BEGIN
+      INT k := k1;
+
+      PROC b = INT: 
+      BEGIN
+         a(k-:=1, b, xl, x2, x3, x4)
+      END; {b}
+
+      IF k<=0 THEN x4 + x5 ELSE b FI
+   END; {a}
+
+   print ("     k");
+   FOR i FROM 0 TO limit DO
+      print ((fixed(i, -6, 0)))
+   OD;
+   print ((newline, "      "));
+   FOR i FROM 0 TO limit DO
+      print ((fixed(a(i, INT:1, INT:-1, INT:-1, INT:1, INT:0), -6, 0)))
+   OD 
+END
+
+FINISH.
